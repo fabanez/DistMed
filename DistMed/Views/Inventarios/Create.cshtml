@@ -1,0 +1,66 @@
+﻿@model DistMed.Models.InventarioDTO
+
+@{
+    ViewData["Title"] = "Inventarios Nuevo Registro";
+}
+
+<script>
+    function checkform() {
+        if (document.Captura.Piezas.value == "") {
+            alert("El valor no debe ser vacio");
+            return false;
+        }
+        else if (Number(document.Captura.Piezas.value) > @{ @Model.PiezasMax.ToString(); }) {
+            alert("El valor debe ser menor o igual a @{ @Model.PiezasMax.ToString(); }");
+            return false;
+        }
+        else {
+            document.Captura.submit();
+            return true;
+        }
+    }
+</script>
+
+<h1>Nuevo Registro</h1>
+
+<h4>Inventarios</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form name="Captura" asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdUbicacion" />
+            <div class="form-group">
+                <label asp-for="Bodega" class="control-label"></label>
+                <input readonly asp-for="Bodega" class="form-control" />
+                <span asp-validation-for="Bodega" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ubicacion" class="control-label"></label>
+                <input readonly asp-for="Ubicacion" class="form-control" />
+                <span asp-validation-for="Ubicacion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Articulo" class="control-label"></label>
+                <input readonly asp-for="Articulo" class="form-control" />
+                <span asp-validation-for="Articulo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Piezas" class="control-label"></label>
+                <input name="Piezas" autofocus asp-for="Piezas" class="form-control" />
+                <span asp-validation-for="Piezas" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Guardar" onclick="return checkform();" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a class="btn btn-secondary" asp-action="Index">Regresar al listado</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
